@@ -1,4 +1,4 @@
-from player import HumanPlayer, RandomComputerPlayer
+from player import HumanPlayer, RandomComputerPlayer, GeniusComputerPlayer
 import time
 
 
@@ -89,13 +89,36 @@ def play(game, x_player, o_player, print_game=True):
                 return letter
 
             letter = "X" if letter == "O" else "O"
-            time.sleep(0.5)
+
+            if print_game:
+                time.sleep(0.5)
     if print_game:
         print("It's a tie!")
 
 
 if __name__ == '__main__':
-    x_player = HumanPlayer("X")
-    o_player = RandomComputerPlayer("O")
-    t = TicTacToe()
-    play(t, x_player, o_player, print_game=True)
+    while True:
+        type = input("Que tipo de jogo você deseja?\nA - Humano x Humano\nB - Humano - Computador"
+                     "\nC - Computador - Computador\n").capitalize()
+
+        if type == "A":
+            x_player = HumanPlayer("X")
+            o_player = HumanPlayer("O")
+        elif type == "B":
+            dificuldade = input("Qual nível de computador você quer enfrentar?\nA - Fácil\nB - Difícil\n").capitalize()
+
+            if dificuldade == "A":
+                x_player = HumanPlayer("X")
+                o_player = RandomComputerPlayer("O")
+            else:
+                x_player = HumanPlayer("X")
+                o_player = GeniusComputerPlayer("O")
+        else:
+            nivel_pc1 = input("Qual nível do computador 1?\nA - Fácil\nB - Difícil\n").capitalize()
+            nivel_pc2 = input("Qual nível do computador 2?\nA - Fácil\nB - Difícil\n").capitalize()
+
+            x_player = RandomComputerPlayer("X") if nivel_pc1 == "A" else GeniusComputerPlayer("X")
+            o_player = RandomComputerPlayer("O") if nivel_pc2 == "A" else GeniusComputerPlayer("O")
+
+        t = TicTacToe()
+        play(t, x_player, o_player, print_game=True)
