@@ -97,7 +97,8 @@ def play(game, x_player, o_player, print_game=True):
 
 
 if __name__ == '__main__':
-    while True:
+    tipo_partida = input("A - Partida \nB - Resultado do Computador\n").capitalize()
+    while tipo_partida == "A":
         type = input("Que tipo de jogo você deseja?\nA - Humano x Humano\nB - Humano - Computador"
                      "\nC - Computador - Computador\n").capitalize()
 
@@ -122,3 +123,25 @@ if __name__ == '__main__':
 
         t = TicTacToe()
         play(t, x_player, o_player, print_game=True)
+    while tipo_partida == "B":
+        num_partidas = int(input("Quantas partidas serão disputadas?\n"))
+        nivel_pc1 = input("Qual nível do computador 1?\nA - Fácil\nB - Difícil\n").capitalize()
+        nivel_pc2 = input("Qual nível do computador 2?\nA - Fácil\nB - Difícil\n").capitalize()
+
+        x_player = RandomComputerPlayer("X") if nivel_pc1 == "A" else GeniusComputerPlayer("X")
+        o_player = RandomComputerPlayer("O") if nivel_pc2 == "A" else GeniusComputerPlayer("O")
+        result_x = 0
+        result_o = 0
+        ties = 0
+        for i in range(num_partidas):
+            t = TicTacToe()
+            partida = play(t, x_player, o_player, print_game=False)
+            if partida == "X":
+                result_x += 1
+            elif partida == "O":
+                result_o += 1
+            else:
+                ties += 1
+        print(f"Number of X wins: {result_x}")
+        print(f"Number of O wins: {result_o}")
+        print(f"Number of ties: {ties}")
